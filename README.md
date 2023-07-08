@@ -380,3 +380,26 @@ FIFO와 RR의 평균 대기 시간이 비슷하다면 RR 알고리즘이 더 비
 - 세마포어를 이용하면 공유자원에 동시에 접근하지 못하기 때문에 동기화 문제가 발생하지 않는다.
 - 세마포어는 여러 개의 열쇠를 가질 수 있다.
 - 단점 : wait 함수와 signal 함수의 순서를 이상하게 호출해 세마포어를 잘못 사용할 가능성이 있다.
+
+## 모니터
+### 모니터
+- 모니터는 세마포어의 단점을 해결한 상호배제 매커니즘
+- 따로 운영체제가 처리하는 것이 아니라 프로그래밍 언어에서 지원하는 방법
+#### Java에서의 모니터 예시코드
+```java
+public class Health{
+    private int health = 100;
+
+  synchronized void increase(int amount) {
+    health += amount;
+  }
+
+  synchronized void decrease(int amount) {
+    health -= amount;
+  }
+}
+```
+- Java에서 "synchronized" 키워드가 붙으면 이 키워드가 붙은 함수들은 동시에 여러 곳에서 실행시킬 수 없다.
+- 상호배제가 완벽하게 이루어진다.
+- 만약 한 프로세스에서 increase() 함수가 실행되면 다른 프로세스에서는 increase()는 물론 "synchronized"가 붙은 decrease()도 실행할 수 없다.
+- 모니터의 구현만 완벽하다면 프로그래머는 세마포어처럼 wait()이나 signal()을 임계영역에 감싸지 않아도 되어 편리하고 안전하게 코드를 작성할 수 있다.
